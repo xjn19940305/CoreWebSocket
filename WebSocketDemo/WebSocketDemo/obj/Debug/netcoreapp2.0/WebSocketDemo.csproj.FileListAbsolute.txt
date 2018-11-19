@@ -1,0 +1,10 @@
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\bin\Debug\netcoreapp2.0\WebSocketDemo.deps.json
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\bin\Debug\netcoreapp2.0\WebSocketDemo.runtimeconfig.json
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\bin\Debug\netcoreapp2.0\WebSocketDemo.runtimeconfig.dev.json
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\bin\Debug\netcoreapp2.0\WebSocketDemo.dll
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\bin\Debug\netcoreapp2.0\WebSocketDemo.pdb
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\obj\Debug\netcoreapp2.0\WebSocketDemo.csproj.CoreCompileInputs.cache
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\obj\Debug\netcoreapp2.0\WebSocketDemo.AssemblyInfoInputs.cache
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\obj\Debug\netcoreapp2.0\WebSocketDemo.AssemblyInfo.cs
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\obj\Debug\netcoreapp2.0\WebSocketDemo.dll
+E:\项目\CoreWebSocket\WebSocketDemo\WebSocketDemo\obj\Debug\netcoreapp2.0\WebSocketDemo.pdb

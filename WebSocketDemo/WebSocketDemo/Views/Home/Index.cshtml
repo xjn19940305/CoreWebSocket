@@ -1,0 +1,160 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <title>websocket</title>
+    <style type="text/css">
+        .main {
+            width: 700px;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .main ul {
+            list-style: none;
+        }
+
+        .main .Left {
+            float: left;
+            width: 300px;
+            border: 1px solid #ccc;
+        }
+
+        .main .Right {
+            float: right;
+            width: 300px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="main" id="app">
+        <div class="Left">
+            <ul>
+                <li v-for="item in MsgListA">{{item.IsSelf==true?"我":"你"}}:{{item.Content}}</li>
+            </ul>
+            <div style="margin:10px;">
+                请输入要发送的消息:<input type="text" v-model="ContentA" style="margin-right:10px;" /><button v-on:click="SendA()">发送</button>
+            </div>
+        </div>
+        <div class="Right">
+            <ul>
+                <li v-for="item in MsgListB">{{item.IsSelf==true?"我":"你"}}:{{item.Content}}</li>
+            </ul>
+            <div style="margin:10px;">
+                请输入要发送的消息:<input type="text" v-model="ContentB" style="margin-right:10px;" /><button v-on:click="SendB()">发送</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</body>
+</html>
+<script src="~/js/jquery-2.2.3.min.js"></script>
+<script src="~/js/vue.min.js"></script>
+<script src="~/js/vue-resource.js"></script>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            socketA: null,
+            socketB: null,
+            ContentA: "",
+            ContentB: "",
+            MsgListA: [],
+            MsgListB: []
+        },
+        filters: {
+
+        },
+        mounted: function () {
+            this.LoadA();
+            this.LoadB();
+        },
+        methods: {
+            LoadA: function () {
+                var _this = this;
+                var protocol = location.protocol === "https:" ? "wss:" : "ws:";
+                var wsUri = protocol + "//" + window.location.host + "?sid=A";
+                this.socketA = new WebSocket(wsUri);
+                this.socketA.onopen = function (e) {
+                    console.log("socketA opened", e);
+                };
+
+                this.socketA.onclose = function (e) {
+                    console.log("socketA closed", e);
+                };
+
+                this.socketA.onmessage = function (e) {
+                    var obj = JSON.parse(e.data);
+                    if (obj.SenderID == "A")
+                        obj.IsSelf = true;
+                    _this.MsgListA.push(obj);
+                };
+                this.socketA.onerror = function (e) {
+                    console.error("SocketA:" + e.data);
+                };
+
+            },
+            LoadB: function () {
+                var _this = this;
+                var protocol = location.protocol === "https:" ? "wss:" : "ws:";
+                var wsUri = protocol + "//" + window.location.host + "?sid=B";
+                this.socketB = new WebSocket(wsUri);
+                this.socketB.onopen = function (e) {
+                    console.log("socketB opened", e);
+                };
+
+                this.socketB.onclose = function (e) {
+                    console.log("socketB closed", e);
+                };
+
+                this.socketB.onmessage = function (e) {
+                    var obj = JSON.parse(e.data);
+                    if (obj.SenderID == "B")
+                        obj.IsSelf = true;
+                    _this.MsgListB.push(obj);
+                };
+                this.socketB.onerror = function (e) {
+                    console.error("SocketB:" + e.data);
+                };
+
+            },
+            SendA: function () {
+                var _this = this;
+                var msgObj = {
+                    SenderID: "A",
+                    ReceiverID: "B",
+                    MessageType: "text",
+                    Content: _this.ContentA
+                };
+                _this.socketA.send(JSON.stringify(msgObj));
+                _this.ContentA = "";
+            },
+            SendB: function () {
+                var _this = this;
+                var msgObj = {
+                    SenderID: "B",
+                    ReceiverID: "A",
+                    MessageType: "text",
+                    Content: _this.ContentB
+                };
+                _this.socketB.send(JSON.stringify(msgObj));
+                _this.ContentB = "";
+            }
+
+        }
+    });
+</script>
